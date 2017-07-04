@@ -11,6 +11,6 @@ myApp.config(function($routeProvider){
 	})
 	
 	.when('/user_login', {
-		templateUrl : 'baf_user/user_login.html'
+		templateUrl : 'baf_users/user_login.html'
 	});
 });
