@@ -1,6 +1,9 @@
 package com.coding.blogandforum.controller;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coding.blogandforum.DAO.ForumDAO;
+import com.coding.blogandforum.DAO.UserDAO;
 import com.coding.blogandforum.model.Forum;
 
 @RestController
@@ -19,6 +23,9 @@ public class ForumController {
 	
 	@Autowired
 	ForumDAO forumDAO;
+	
+	@Autowired
+	UserDAO userDAO;
 	
 	// To get the list of all the forums
 	@RequestMapping(value="/getListOfForum", method=RequestMethod.GET)
@@ -38,12 +45,31 @@ public class ForumController {
 		
 		// To add a particular Forum details in the DB
 		@RequestMapping(value="/addForum", method=RequestMethod.POST)
-		public ResponseEntity<String> addForum(@RequestBody Forum forum)
+		public ResponseEntity<String> addForum(@RequestBody Forum forum, HttpSession httpSession)
 		{
-			System.out.println(forum.getUser_id());
-			forum.setStatus("PENDING");
-			forumDAO.addOrUpdateForum(forum);
-			return new ResponseEntity<String>("Forum added successfully",HttpStatus.OK);
+			int loggedInUserId = (int) httpSession.getAttribute("loggedInUserID");
+			
+			forum.setUser_id(loggedInUserId);
+			
+			if(userDAO.getParticularUser(loggedInUserId).getRole().equalsIgnoreCase("admin")){
+				forum.setStatus("APPROVED");
+			}
+			else{
+				forum.setStatus("PENDING");
+			}
+			
+			forum.setCreate_date(new Date());
+			if(forumDAO.addOrUpdateForum(forum)){
+				forum.setErrCode("200");
+				forum.setErrMessage("Forum added Successfully");
+				return new ResponseEntity<String>("Forum added successfully",HttpStatus.OK);
+			}
+			else{
+				forum.setErrCode("404");
+				forum.setErrMessage("Problem occured while creating the Forum. Please contact the Admin");
+				return new ResponseEntity<String>("Forum not created",HttpStatus.OK);
+			}
+			
 		}
 		
 		// To delete a particular Forum from the DB

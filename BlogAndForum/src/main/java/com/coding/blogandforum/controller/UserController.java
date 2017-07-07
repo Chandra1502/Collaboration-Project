@@ -58,9 +58,14 @@ public class UserController {
 		if(userDAO.getParticularUser(user.getUser_id())==null){
 			user.setStatus("PENDING");
 			user.setIsOnline("NO");
-			userDAO.addOrUpdateUser(user);
-			user.setErrCode("200");
-			user.setErrMessage("Thank you for registering with us.");
+			if(userDAO.addOrUpdateUser(user)){
+				user.setErrCode("200");
+				user.setErrMessage("Thank you for registering with us. You've been registered as "+user.getRole());	
+			}
+			else{
+				user.setErrCode("404");
+				user.setErrMessage("Operation not successful. Please contact the admin for further details");
+			}
 			return new ResponseEntity<Users>(user,HttpStatus.OK);
 		}
 		else{
@@ -126,10 +131,11 @@ public class UserController {
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public ResponseEntity<Users> logout(HttpSession httpSession)
 	{
-		int user_id = (int) httpSession.getAttribute("loggedInUserID");
-		Users user = userDAO.getParticularUser(user_id);
+		int loggedInUserID = (int) httpSession.getAttribute("loggedInUserID");
+		Users user = userDAO.getParticularUser(loggedInUserID);
 		user.setIsOnline("NO");
-		user.setErrCode("200");;
+		httpSession.invalidate();
+		user.setErrCode("200");
 		user.setErrMessage("Logged Out Successfully");
 		userDAO.addOrUpdateUser(user);
 		return new ResponseEntity<Users>(user, HttpStatus.OK);

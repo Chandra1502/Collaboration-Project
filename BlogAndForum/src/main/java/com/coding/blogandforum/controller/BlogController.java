@@ -1,7 +1,12 @@
 package com.coding.blogandforum.controller;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +36,26 @@ public class BlogController {
 	@Autowired
 	UserDAO userDAO;
 	
+	@Autowired
+	HttpSession httpSession;
+	
+	private static final Logger logger = LoggerFactory.getLogger(BlogController.class);
+	
 	// To get the list of all the blog objects
 	@RequestMapping(value="/getListOfBlog", method=RequestMethod.GET)
 	public ResponseEntity<List<Blog>> getListOfBlog()
 	{
+		logger.debug("starting of the list of Blogs method");
 		List<Blog> bloglist = blogDAO.getListOfBlog();
-		return new ResponseEntity<List<Blog>>(bloglist,HttpStatus.OK);
+		if(bloglist!=null && !bloglist.isEmpty()){
+			logger.debug("List is not empty, returning the list of blogs");
+			return new ResponseEntity<List<Blog>>(bloglist,HttpStatus.OK);
+		}
+		else{
+			blog.setErrCode("404");
+			blog.setErrMessage("There are no users registered, please register!");
+			return new ResponseEntity<List<Blog>>(bloglist,HttpStatus.OK);
+		}
 	}
 	
 	/*
@@ -63,9 +82,22 @@ public class BlogController {
 	
 	// To add a particular blog details in the DB
 	@RequestMapping(value="/addBlog", method=RequestMethod.POST)
-	public ResponseEntity<String> addBlog(@RequestBody Blog blog)
+	public ResponseEntity<String> addBlog(@RequestBody Blog blog,HttpSession httpSession)
 	{
-		blog.setStatus("PENDING");
+		int loggedInUserID = (int) httpSession.getAttribute("loggedInUserID");
+		
+		blog.setUser_id(loggedInUserID);
+		
+		if(((userDAO.getParticularUser(loggedInUserID)).getRole()).equalsIgnoreCase("admin")){
+			blog.setStatus("APPROVED");
+		}
+		else{
+			blog.setStatus("PENDING");
+		}
+		
+		blog.setLikes(0);
+		blog.setCreate_date(new Date());
+		
 		blogDAO.addOrUpdateBlog(blog);
 		return new ResponseEntity<String>("Blog added successfully",HttpStatus.OK);
 	}
