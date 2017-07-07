@@ -42,7 +42,7 @@ public class Blog extends Status{
 	@Temporal(TemporalType.DATE)
 	private Date create_date;
 	
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name="user_id",insertable=false, updatable=false)
 	@JsonBackReference
 	private Users user;
@@ -53,7 +53,7 @@ public class Blog extends Status{
 
 	public void setUser(Users user) {
 		this.user = user;
-	}
+	}*/
 
 	public int getBlog_id() {
 		return blog_id;
