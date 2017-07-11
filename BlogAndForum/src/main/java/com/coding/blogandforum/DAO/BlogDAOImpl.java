@@ -12,14 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.coding.blogandforum.model.Blog;
 
-@EnableTransactionManagement
 @Repository("blogDAO")
 public class BlogDAOImpl implements BlogDAO {
 	
 	@Autowired
 	SessionFactory sessionFactory;
 	
-	public BlogDAOImpl(SessionFactory sessionFactory) {
+	/*public BlogDAOImpl(SessionFactory sessionFactory) {
 		super();
 		this.sessionFactory = sessionFactory;
 	}
@@ -27,7 +26,7 @@ public class BlogDAOImpl implements BlogDAO {
 	public BlogDAOImpl() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 	
 	@Transactional
 	public boolean addOrUpdateBlog(Blog blog) {

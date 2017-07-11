@@ -11,14 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.coding.blogandforum.DAO.BlogCommentDAO;
 import com.coding.blogandforum.DAO.BlogDAO;
 import com.coding.blogandforum.DAO.UserDAO;
 import com.coding.blogandforum.model.Blog;
+import com.coding.blogandforum.model.BlogComment;
 import com.coding.blogandforum.model.Users;
 
 @RestController
@@ -26,6 +29,9 @@ public class BlogController {
 	
 	@Autowired
 	BlogDAO blogDAO;
+	
+	@Autowired
+	BlogCommentDAO blogCommentDAO;
 	
 	@Autowired
 	Blog blog;
@@ -45,10 +51,11 @@ public class BlogController {
 	@RequestMapping(value="/getListOfBlog", method=RequestMethod.GET)
 	public ResponseEntity<List<Blog>> getListOfBlog()
 	{
-		logger.debug("starting of the list of Blogs method");
+		logger.debug("->->->starting of the list of Blogs method->->->");
 		List<Blog> bloglist = blogDAO.getListOfBlog();
+		
 		if(bloglist!=null && !bloglist.isEmpty()){
-			logger.debug("List is not empty, returning the list of blogs");
+			logger.debug("->->->List is not empty, returning the list of blogs->->->");
 			return new ResponseEntity<List<Blog>>(bloglist,HttpStatus.OK);
 		}
 		else{
@@ -123,4 +130,5 @@ public class BlogController {
 		blogDAO.addOrUpdateBlog(updateblog);
 		return new ResponseEntity<Blog>(updateblog,HttpStatus.OK);
 	}
+	
 }

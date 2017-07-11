@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table
@@ -40,6 +41,7 @@ public class Blog extends Status{
 	private String blog_name,blog_content,status;
 	
 	@Temporal(TemporalType.DATE)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date create_date;
 	
 	/*@ManyToOne
