@@ -65,11 +65,12 @@ public class DBConfig {
 	{
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.addProperties(getHibernateProperties());
-		sessionBuilder.addAnnotatedClass(Users.class);
+		/*sessionBuilder.addAnnotatedClass(Users.class);
 		sessionBuilder.addAnnotatedClass(Job.class);
 		sessionBuilder.addAnnotatedClass(Blog.class);
 		sessionBuilder.addAnnotatedClass(Forum.class);
-		sessionBuilder.addAnnotatedClass(Friend.class);
+		sessionBuilder.addAnnotatedClass(Friend.class);*/
+		sessionBuilder.scanPackages("com.coding.blogandforum.model");
 		System.out.println("Session Factory Object Created");
 		return sessionBuilder.buildSessionFactory();
 	}
@@ -84,18 +85,11 @@ public class DBConfig {
 	}
 	
 	
-	@Bean("user")
+	/*@Bean("user")
 	public Users getUsers()
 	{
 		System.out.println("user");
 		return new Users();
-	}
-	
-	@Bean("userDAO")
-	public UserDAO getUserDAO(SessionFactory sessionFactory)
-	{
-		System.out.println("userDAO");
-		return new UserDAOImpl(sessionFactory);
 	}
 	
 	@Bean("job")
@@ -104,22 +98,10 @@ public class DBConfig {
 		return new Job();
 	}
 	
-	@Bean("jobDAO")
-	public JobDAO getJobDAO(SessionFactory sessionFactory)
-	{
-		return new JobDAOImpl(sessionFactory);
-	}
-	
 	@Bean("blog")
 	public Blog getBlog()
 	{
 		return new Blog();
-	}
-	
-	@Bean("blogDAO")
-	public BlogDAO getBlogDAO(SessionFactory sessionFactory)
-	{
-		return new BlogDAOImpl(sessionFactory);
 	}
 	
 	@Bean("forum")
@@ -128,21 +110,40 @@ public class DBConfig {
 		return new Forum();
 	}
 	
+	@Bean("friend")
+	public Friend getFriend()
+	{
+		return new Friend();
+	}*/
+	
+	/*@Bean("userDAO")
+	public UserDAO getUserDAO(SessionFactory sessionFactory)
+	{
+		System.out.println("userDAO");
+		return new UserDAOImpl(sessionFactory);
+	}
+	
+	@Bean("jobDAO")
+	public JobDAO getJobDAO(SessionFactory sessionFactory)
+	{
+		return new JobDAOImpl(sessionFactory);
+	}
+	
+	@Bean("blogDAO")
+	public BlogDAO getBlogDAO(SessionFactory sessionFactory)
+	{
+		return new BlogDAOImpl(sessionFactory);
+	}
+	
 	@Bean("forumDAO")
 	public ForumDAO getForumDAO(SessionFactory sessionFactory)
 	{
 		return new ForumDAOImpl(sessionFactory);
 	}
 	
-	@Bean("friend")
-	public Friend getFriend()
-	{
-		return new Friend();
-	}
-	
 	@Bean("friendDAO")
 	public FriendDAO getFriendDAO(SessionFactory sessionFactory)
 	{
 		return new FriendDAOImpl(sessionFactory);
-	}
+	}*/
 }
