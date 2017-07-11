@@ -12,14 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.coding.blogandforum.model.Forum;
 
-@EnableTransactionManagement
+
 @Repository("forumDAO")
 public class ForumDAOImpl implements ForumDAO {
 	
 	@Autowired
 	SessionFactory sessionFactory;
 
-	public ForumDAOImpl(SessionFactory sessionFactory) {
+	/*public ForumDAOImpl(SessionFactory sessionFactory) {
 		super();
 		this.sessionFactory = sessionFactory;
 	}
@@ -27,7 +27,7 @@ public class ForumDAOImpl implements ForumDAO {
 	public ForumDAOImpl() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	@Override
 	@Transactional

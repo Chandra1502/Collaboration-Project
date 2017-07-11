@@ -6,16 +6,18 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.coding.blogandforum.model.Job;
 
+@Repository("jobDAO")
 public class JobDAOImpl implements JobDAO {
 	
 	@Autowired
 	SessionFactory sessionFactory;
 
-	public JobDAOImpl(SessionFactory sessionFactory) {
+	/*public JobDAOImpl(SessionFactory sessionFactory) {
 		super();
 		this.sessionFactory = sessionFactory;
 	}
@@ -23,7 +25,7 @@ public class JobDAOImpl implements JobDAO {
 	public JobDAOImpl() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 	
 	@Transactional
 	public boolean addOrUpdateJob(Job job) {
