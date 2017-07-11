@@ -28,7 +28,7 @@ public class Users extends Status{
 	@SequenceGenerator(name = "generator" , sequenceName="users_seq" , allocationSize=1)
 	private int user_id;
 	
-	private String name,password,email,role,status,isOnline;
+	private String name,password,email,role,status,isOnline,userName;
 	
 	/*@OneToMany(mappedBy="user",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JsonManagedReference
@@ -120,6 +120,14 @@ public class Users extends Status{
 
 	public void setIsOnline(String isOnline) {
 		this.isOnline = isOnline;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

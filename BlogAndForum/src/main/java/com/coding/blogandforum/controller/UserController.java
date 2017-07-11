@@ -23,8 +23,8 @@ public class UserController {
 	@Autowired
 	UserDAO userDAO;
 	
-	@Autowired
-	Users user;
+	/*@Autowired
+	Users user;*/
 	
 	/*
 	 * Get the list of all Users
@@ -63,6 +63,7 @@ public class UserController {
 				user.setErrMessage("Thank you for registering with us. You've been registered as "+user.getRole());	
 			}
 			else{
+				user = new Users();
 				user.setErrCode("404");
 				user.setErrMessage("Operation not successful. Please contact the admin for further details");
 			}
@@ -116,7 +117,8 @@ public class UserController {
 			validateuser.setErrCode("200");
 			validateuser.setErrMessage("Valid Credentials. Logged In successfully");
 			httpSession.setAttribute("loggedInUserID", validateuser.getUser_id());
-			httpSession.setAttribute("loggedInUsername", validateuser.getName());
+			httpSession.setAttribute("loggedInUser", validateuser.getName());
+			httpSession.setAttribute("loggedInUserName", validateuser.getUserName());
 			httpSession.setAttribute("loggedInUserRole", validateuser.getRole());
 			validateuser.setIsOnline("YES");
 			userDAO.addOrUpdateUser(validateuser);

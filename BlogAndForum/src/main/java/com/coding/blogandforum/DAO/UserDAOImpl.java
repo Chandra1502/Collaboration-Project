@@ -14,14 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.coding.blogandforum.model.Users;
 
-@EnableTransactionManagement
+
 @Repository("userDAO")
 public class UserDAOImpl implements UserDAO {
 	
 	@Autowired
 	SessionFactory sessionFactory;
 	
-	public UserDAOImpl() {
+	/*public UserDAOImpl() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -29,7 +29,7 @@ public class UserDAOImpl implements UserDAO {
 	public UserDAOImpl(SessionFactory sessionFactory) {
 		super();
 		this.sessionFactory = sessionFactory;
-	}
+	}*/
 	
 	@Transactional
 	public boolean addOrUpdateUser(Users user) {
@@ -94,7 +94,7 @@ public class UserDAOImpl implements UserDAO {
 			return null;
 		}
 	}
-
+	
 	@Override
 	@Transactional
 	public Users validateUser(String email, String password) {
@@ -111,6 +111,20 @@ public class UserDAOImpl implements UserDAO {
 		catch(Exception e)
 		{
 			System.out.println("Exception in validateUser of UserDAOImpl");
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public Users getParticularUserbyUserName(String userName) {
+		try{
+			return (Users) sessionFactory.getCurrentSession().createCriteria(Users.class)
+					.add(Restrictions.eq("userName", userName)).uniqueResult();
+		}
+		catch(Exception e){
+			System.out.println("Exception in getParticularUserbyUserName");
 			e.printStackTrace();
 			return null;
 		}

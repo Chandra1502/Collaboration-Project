@@ -12,7 +12,7 @@ public interface UserDAO {
 	
 	public List<Users> getListOFUsers();
 	
-	//public boolean updateUser(Users user);
+	public Users getParticularUserbyUserName(String userName);
 	
 	public Users getParticularUser(int user_id);
 	
